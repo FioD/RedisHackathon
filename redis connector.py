@@ -1,18 +1,18 @@
 import redis
+from redistimeseries.client import Client
 
-def redisc():
-    r = redis.Redis(
+import datetime
+
+r = redis.Redis(
     host= "127.0.0.1",
     port= "6379")
-    return r
 
-r=redisc()
 r.set("foo","bar")
 r.get("foo")
 
 class BloodPressureReading:
     def __init__(self, min_bp, max_bp):
-        self.time = "a"#timestamp
+        self.time = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
         self.min_bp = min_bp
         self.max_bp = max_bp
 
@@ -51,4 +51,12 @@ p.get_cur_vitals()
 print("Second Iteration")
 p.receive_vitals(bp_sample_2, 87, 120)
 
+
+#from here on, experiments
+rts = Client()
+rts.create('blood', labels={'Time':'Series'})
+rts.add('blood', bp_sample_1.time, bp_sample_1.min_bp)
+rts.get("blood")
+#r.execute_command("ts.create caa");
+print("Timeseries created?")
 
