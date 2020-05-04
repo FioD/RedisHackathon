@@ -1,4 +1,5 @@
 import redis
+import time
 from redistimeseries.client import Client
 
 import datetime
@@ -12,13 +13,17 @@ r.get("foo")
 
 class BloodPressureReading:
     def __init__(self, min_bp, max_bp):
-        self.time = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
+        self.time = int(datetime.datetime.now(datetime.timezone.utc).timestamp()*1000)
         self.min_bp = min_bp
         self.max_bp = max_bp
 
 
 bp_sample_1 = BloodPressureReading(60, 120)
+print("TIMES")
+print(bp_sample_1.time)
+#time.sleep(0.3)
 bp_sample_2 = BloodPressureReading(50, 110)
+print(bp_sample_2.time)
 
 
 class Patient:
@@ -54,9 +59,14 @@ p.receive_vitals(bp_sample_2, 87, 120)
 
 #from here on, experiments
 rts = Client()
+rts.delete("blood")
+print("timeseries deleted")
 rts.create('blood', labels={'Time':'Series'})
-rts.add('blood', bp_sample_1.time, bp_sample_1.min_bp)
-rts.get("blood")
-#r.execute_command("ts.create caa");
-print("Timeseries created?")
+print("Timeseries created")
+rts.add("blood", bp_sample_1.time, bp_sample_1.min_bp)
+print("bp1 added, time: ", bp_sample_1.time)
+print("next one: ", bp_sample_2.time)
+rts.add('blood', bp_sample_2.time, bp_sample_2.min_bp)
+print("bp2 added, time: ", bp_sample_2.time)
+print(rts.get("blood"))
 
