@@ -84,11 +84,12 @@ class Patient:
         self.rts.add("temp", temp_reading.time, temp_reading.temp)
 
 
-    def receive_vitals(self, bp_reading, sp_reading, pulse_reading):
+    def receive_vitals(self, bp_reading, sp_reading, pulse_reading, temp_reading):
         """Receive vitals from a push operation and add to the timeseries"""
         self.add_blood_samples(bp_reading)
         self.add_sp02_samples(sp_reading)
         self.add_pulse_samples(pulse_reading)
+        self.add_temp_samples(temp_reading)
         print("vitals updated")
 
 

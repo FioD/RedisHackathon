@@ -17,6 +17,11 @@ def random_sp02():
     sp02 = random.randrange(60, 100)
     return sp02
 
+def random_pulse():
+    pulse = random.randrange(40, 180)
+    return pulse
+
+
 def random_temp():
     temp = random.randrange(35, 42)
     return temp
@@ -26,8 +31,9 @@ def create_dict():
     """create a dictionary with all the random variables"""
     bp = random_bp()
     sp = random_sp02()
+    pulse = random_pulse()
     temp = random_temp()
-    vitals_dict = {"bp": bp, "sp": sp, "temp": temp}
+    vitals_dict = {"bp": bp, "sp": sp, "pulse": pulse, "temp": temp}
     return vitals_dict
 
 def push_data():
@@ -38,7 +44,5 @@ def push_data():
 
 while 1>0:
     push_data()
-    time.sleep(0.3)
-    
-
+    time.sleep(2)
     
