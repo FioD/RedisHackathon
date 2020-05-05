@@ -48,7 +48,7 @@ class Patient:
 
     def see_all_bp(self):
         for element in self.bp:
-            print(element.min_bp, element.max_bp)   
+            print(element.min_bp, element.max_bp)
 
 
 # p = Patient("Boris")
@@ -120,3 +120,13 @@ create_all_series()
 add_blood_samples()
 add_sp02_samples()
 add_pulse_samples()
+
+
+# def get_all_ts(timeseries_name):
+#     full_timeseries = rts.getrange(timeseries_name, 0, -1)
+#     return full_timeseries
+#
+# print(get_all_ts("pulse"))
+pulse_sample_boris= pulseReading(98)
+r.hset("boris2", rts.create("borisblood", pulse_sample_boris.time, pulse_sample_boris.heartbeat))
+print(r.hget("boris2"))
